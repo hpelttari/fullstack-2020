@@ -42,16 +42,23 @@ const PositivePercentage = ({good, neutral, bad}) => {
 }
 
 const Statistics = ({good, neutral, bad}) => {
-  return (
-     <div>
-      <Feedback text={"good"} value={good}/> 
-      <Feedback text={"neutral"} value={neutral}/> 
-      <Feedback text={"bad"} value={bad}/>
-      <All good={good} neutral={neutral} bad={bad}/>
-      <Average good={good} neutral={neutral} bad={bad}/>
-      <PositivePercentage good={good} neutral={neutral} bad={bad}/>
-    </div>
+  if (good || neutral || bad > 0){
+    return (
+       <div>
+        <Feedback text={"good"} value={good}/> 
+        <Feedback text={"neutral"} value={neutral}/> 
+        <Feedback text={"bad"} value={bad}/>
+        <All good={good} neutral={neutral} bad={bad}/>
+        <Average good={good} neutral={neutral} bad={bad}/>
+        <PositivePercentage good={good} neutral={neutral} bad={bad}/>
+        </div>
 
+    )
+		
+  }
+  return (
+    <div>
+    </div>
   )
 }
 

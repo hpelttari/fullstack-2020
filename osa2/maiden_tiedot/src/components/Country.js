@@ -1,6 +1,7 @@
 import React from 'react'
+import Weather from './Weather'
 
-const Country = ({country}) => {
+const Country = ({country, weather, setWeather, api_key}) => {
     return (
         <div>
         <h1>{country.name}</h1>
@@ -15,6 +16,11 @@ const Country = ({country}) => {
         <img src={country.flag}
              width="200"
              alt="Flag of the country"/>
+         <Weather city={country.capital}
+                  weather={weather}
+                  setWeather={setWeather}
+                  api_key={api_key}
+        />
     </div>
     )
 

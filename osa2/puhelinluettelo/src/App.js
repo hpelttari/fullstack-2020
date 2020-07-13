@@ -3,7 +3,8 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personService from './services/persons'
-import Notification from './components/Notification'
+import SuccessNotification from './components/SuccessNotification'
+import ErrorNotification from './components/ErrorNotification'
 
 const App = () => {
     const [ persons, setPersons] = useState([]) 
@@ -11,6 +12,7 @@ const App = () => {
     const [ newNumber, setNewNumber ] = useState('')
     const [ filter, setFilter ] = useState('')
     const [successMessage, setSuccessMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
     
     const addPerson = (event) => {
         event.preventDefault()
@@ -27,6 +29,11 @@ const App = () => {
                         setTimeout(() => {
                             setSuccessMessage(null)
                         }, 5000)
+                    }).catch(error => {
+                        setErrorMessage(`Information of ${person.name} has already been removed from the sercer`)
+                            setTimeout(() => {
+                                setErrorMessage(null)
+                            }, 5000)
                     })
 
                 
@@ -89,7 +96,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage}/>
+      <SuccessNotification message={successMessage}/>
+      <ErrorNotification message={errorMessage}/>
         <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <h2>Add a new</h2>
       <PersonForm addPerson={addPerson}

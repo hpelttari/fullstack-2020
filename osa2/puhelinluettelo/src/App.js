@@ -3,13 +3,15 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
     const [ persons, setPersons] = useState([]) 
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
     const [ filter, setFilter ] = useState('')
-  
+    const [successMessage, setSuccessMessage] = useState(null)
+    
     const addPerson = (event) => {
         event.preventDefault()
         if (persons.some(person => person.name === newName)){
@@ -21,7 +23,12 @@ const App = () => {
                     .update(id, changedPerson)
                     .then(returnedPerson => {
                         setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+                        setSuccessMessage(`Number changed for ${changedPerson.name}`)
+                        setTimeout(() => {
+                            setSuccessMessage(null)
+                        }, 5000)
                     })
+
                 
         } 
             setNewName('')
@@ -38,6 +45,10 @@ const App = () => {
                 setPersons(persons.concat(returnedPerson))
                 setNewName('')
                 setNewNumber('')
+                setSuccessMessage(`Added ${returnedPerson.name}`)
+                setTimeout(() => {
+                    setSuccessMessage(null)
+                }, 5000)
             })
       }
     
@@ -55,6 +66,10 @@ const App = () => {
             personService.getAll().then(
                 returnedPersons => {
                     setPersons(returnedPersons)
+                    setSuccessMessage(`Deleted ${person.name}`)
+                    setTimeout(() => {
+                        setSuccessMessage(null)
+                    }, 5000)
                 }
             )
         }
@@ -74,6 +89,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage}/>
         <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <h2>Add a new</h2>
       <PersonForm addPerson={addPerson}
